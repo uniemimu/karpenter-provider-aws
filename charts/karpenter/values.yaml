@@ -87,7 +87,11 @@ tolerations:
   - key: CriticalAddonsOnly
     operator: Exists
 # -- Additional volumes for the pod.
-extraVolumes: []
+extraVolumes:
+  - name: extension-volume
+    configMap:
+      name: extension-config
+      optional: true
 # - name: aws-iam-token
 #   projected:
 #     defaultMode: 420
@@ -123,7 +127,9 @@ controller:
   #    memory: 1Gi
 
   # -- Additional volumeMounts for the controller pod.
-  extraVolumeMounts: []
+  extraVolumeMounts:
+    - name: extension-volume
+      mountPath: /extensions
   # - name: aws-iam-token
   #   mountPath: /var/run/secrets/eks.amazonaws.com/serviceaccount
   #   readOnly: true
